@@ -234,7 +234,7 @@
   .pv-logo{ font-size:11px; font-weight:700; color:#e7ecf3; margin-bottom:14px; }
   .pv-h1{
     font-family:"Source Sans 3", sans-serif; font-weight:700; font-size:19px; line-height:1.25;
-    color:#eef1f5; margin:0 0 8px;
+    color:#eef1f5; margin:0 0 8px; max-width:calc(100% - 106px);
   }
   .pv-h1 .grad{
     background:linear-gradient(90deg,#34d4c8,#3ddc84);
@@ -251,6 +251,13 @@
   .pv-card.c1{ background:linear-gradient(160deg,#7c3aed,#3730a3); top:0; left:22px; transform:rotate(6deg); }
   .pv-card.c2{ background:linear-gradient(160deg,#f59e0b,#c2410c); top:26px; left:0; transform:rotate(-4deg); }
   .pv-card.c3{ background:#111826; border:1px solid #232c3d; top:46px; left:14px; }
+  @media (max-width:400px){
+    .pv-cards{ width:88px; height:82px; }
+    .pv-card{ width:64px; height:44px; }
+    .pv-card.c2{ top:20px; }
+    .pv-card.c3{ top:34px; left:10px; }
+    .pv-h1{ max-width:calc(100% - 78px); font-size:17px; }
+  }
   .pv-features{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   .pv-feature{ background:#0e131c; border:1px solid #1b2230; border-radius:7px; padding:10px; }
   .pv-feature .ic{ width:18px; height:18px; border-radius:5px; background:rgba(52,212,200,.16); margin-bottom:8px; }
@@ -284,6 +291,9 @@
   .contact-card{
     background:var(--surface); border:1px solid var(--border); border-radius:6px;
     padding:15px 18px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  @media (max-width:380px){
+    .contact-card{ flex-direction:column; align-items:flex-start; gap:10px; }
   }
   .contact-card .k{ font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; font-weight:600; color:var(--muted); display:block; margin-bottom:4px; }
   .contact-card .v{ font-size:14.5px; font-weight:500; word-break:break-word; }

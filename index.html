@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudeshna Das</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#ffffff;
+    --surface:#ffffff;
+    --surface-2:#f4f5f7;
+    --ink:#16202c;
+    --ink-soft:#48505c;
+    --muted:#838b96;
+    --accent:#1c3f60;
+    --accent-soft:#e7edf3;
+    --border:#dfe3e8;
+    --rule:#16202c;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1520;
+      --surface:#151c27;
+      --surface-2:#1a222e;
+      --ink:#e6e9ee;
+      --ink-soft:#aab1bc;
+      --muted:#6f7885;
+      --accent:#83aed7;
+      --accent-soft:rgba(131,174,215,.13);
+      --border:#26303d;
+      --rule:#3a4552;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1520;
+    --surface:#151c27;
+    --surface-2:#1a222e;
+    --ink:#e6e9ee;
+    --ink-soft:#aab1bc;
+    --muted:#6f7885;
+    --accent:#83aed7;
+    --accent-soft:rgba(131,174,215,.13);
+    --border:#26303d;
+    --rule:#3a4552;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Source Sans 3", system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:1060px; margin:0 auto; padding-inline:40px; }
+  @media (max-width:640px){ .wrap{ padding-inline:20px; } }
+  a{ color:inherit; }
+
+  .eyebrow{
+    font-family:"Source Sans 3", sans-serif;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+  }
+
+  h1,h2,h3{
+    font-family:"Source Serif 4", Georgia, serif;
+    font-weight:600;
+    text-wrap:balance;
+    margin:0;
+    color:var(--ink);
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky; top:env(safe-area-inset-top,0px);
+    z-index:20;
+    background:color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    max-width:1060px; margin:0 auto; padding:16px 40px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  @media (max-width:640px){ .nav-inner{ padding:14px 20px; } }
+  .nav-name{
+    font-family:"Source Serif 4", serif; font-weight:600; font-size:17px;
+    text-decoration:none; letter-spacing:.01em;
+  }
+  .nav-links{
+    display:flex; gap:28px; list-style:none; margin:0; padding:0;
+    font-size:13.5px; font-weight:500;
+  }
+  .nav-links a{ text-decoration:none; color:var(--ink-soft); }
+  .nav-links a:hover{ color:var(--accent); }
+  @media (max-width:640px){ .nav-links{display:none;} }
+
+  /* ---------- hero ---------- */
+  header.hero{ padding:60px 0 44px; }
+  .hero-grid{
+    display:grid; grid-template-columns:1fr auto; gap:32px; align-items:start;
+  }
+  .avatar{
+    width:132px; height:132px; border-radius:50%;
+    object-fit:cover; border:1px solid var(--border);
+    box-shadow:0 1px 2px rgba(20,20,15,.06), 0 6px 18px rgba(20,20,15,.08);
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg, var(--accent), #0f2540);
+    font-family:"Source Serif 4", serif; font-weight:600; font-size:44px;
+    color:#fff; letter-spacing:.02em; flex-shrink:0;
+  }
+  @media (max-width:560px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .avatar{ width:84px; height:84px; order:-1; font-size:28px; }
+  }
+  .status-line{
+    font-size:13.5px; font-weight:600; color:var(--accent);
+    letter-spacing:.02em; margin-bottom:18px;
+  }
+
+  h1.name{ font-size:clamp(34px, 5vw, 54px); line-height:1.1; letter-spacing:-.01em; }
+
+  .role-line{
+    font-size:clamp(16px, 2vw, 18px);
+    color:var(--ink-soft);
+    margin-top:14px;
+    max-width:58ch;
+  }
+  .meta-row{
+    display:flex; flex-wrap:wrap; gap:6px 0;
+    margin-top:20px;
+    font-size:13.5px; color:var(--muted);
+  }
+  .meta-row span{ display:inline-flex; align-items:center; }
+  .meta-row span:not(:first-child)::before{ content:"\2022"; margin:0 10px; color:var(--border); }
+
+  .cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+  .btn{
+    font-family:"Source Sans 3", sans-serif; font-weight:600; font-size:14px;
+    padding:10px 18px; border-radius:4px; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{ background:var(--accent); color:#fff; }
+  .btn-primary:hover{ filter:brightness(1.12); }
+  .btn-outline{ background:transparent; color:var(--ink); border-color:var(--border); }
+  .btn-outline:hover{ border-color:var(--accent); color:var(--accent); }
+
+  /* ---------- section shell ---------- */
+  section{ padding:42px 0; border-top:1px solid var(--border); }
+  .section-head{ margin-bottom:24px; }
+  .section-head h2{ font-size:clamp(21px,2.8vw,25px); margin-top:5px; }
+
+  /* ---------- about ---------- */
+  .about-text{ max-width:66ch; font-size:16px; color:var(--ink-soft); }
+  .about-text strong{ color:var(--ink); font-weight:600; }
+
+  /* ---------- skills ---------- */
+  .skill-groups{ display:grid; grid-template-columns:1fr; gap:16px 48px; align-items:start; }
+  @media (min-width:720px){ .skill-groups{ grid-template-columns:1fr 1fr; } }
+  .skill-group{
+    display:grid; grid-template-columns: 172px 1fr; gap:4px 20px;
+    align-items:baseline;
+    padding-bottom:14px; border-bottom:1px solid var(--border);
+  }
+  @media (max-width:560px){ .skill-group{ grid-template-columns:1fr; gap:6px; } }
+  .skill-group .label{
+    font-size:12.5px; letter-spacing:.08em; font-weight:600;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .skill-group .values{ font-size:15px; color:var(--ink-soft); }
+
+  /* ---------- experience ---------- */
+  .exp-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:6px;
+    padding:24px 26px;
+  }
+  .exp-top{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 16px; align-items:baseline; }
+  .exp-role{ font-family:"Source Serif 4", serif; font-size:19px; font-weight:600; }
+  .exp-date{ font-size:13px; color:var(--muted); white-space:nowrap; font-weight:500; }
+  .exp-org{ color:var(--ink-soft); font-weight:500; margin-top:3px; font-size:14.5px; }
+  .exp-list{ margin:16px 0 0; padding-left:0; list-style:none; display:grid; gap:9px; }
+  .exp-list li{ padding-left:18px; position:relative; color:var(--ink-soft); font-size:15px; }
+  .exp-list li::before{
+    content:"\2013"; position:absolute; left:0; top:0; color:var(--muted);
+  }
+
+  /* ---------- project ---------- */
+  .project-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:6px;
+    padding:28px 26px;
+  }
+  .project-top{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:14px 20px; align-items:flex-start; border-bottom:1px solid var(--border); padding-bottom:18px; }
+  .project-title{ font-family:"Source Serif 4", serif; font-size:22px; font-weight:600; }
+  .project-tagline{ color:var(--ink-soft); font-size:14.5px; margin-top:5px; max-width:46ch; }
+  .project-links{ display:flex; gap:10px; flex-wrap:wrap; }
+  .icon-link{
+    font-size:13px; font-weight:600;
+    border:1px solid var(--border); border-radius:4px; padding:7px 13px;
+    text-decoration:none; color:var(--ink-soft);
+  }
+  .icon-link:hover{ border-color:var(--accent); color:var(--accent); }
+  .icon-link.live{ border-color:var(--accent); color:var(--accent); }
+
+  /* ---------- product preview (recreated from the live site) ---------- */
+  .preview-caption{ font-size:12px; color:var(--muted); margin:18px 0 10px; }
+  .preview-gallery{ display:grid; grid-template-columns:1.15fr 1fr; gap:14px; }
+  @media (max-width:640px){ .preview-gallery{ grid-template-columns:1fr; } }
+  .preview-frame{
+    border:1px solid var(--border); border-radius:8px; overflow:hidden;
+    background:#070b12;
+  }
+  .preview-chrome{
+    display:flex; align-items:center; gap:6px; padding:8px 10px;
+    background:#0e131c; border-bottom:1px solid #1b2230;
+  }
+  .preview-chrome .dot{ width:7px; height:7px; border-radius:50%; background:#2a3242; }
+  .preview-url{
+    font-size:10.5px; color:#5b6576; margin-left:6px; font-weight:500;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .preview-body{ padding:20px 18px 22px; position:relative; }
+  .pv-logo{ font-size:11px; font-weight:700; color:#e7ecf3; margin-bottom:14px; }
+  .pv-h1{
+    font-family:"Source Sans 3", sans-serif; font-weight:700; font-size:19px; line-height:1.25;
+    color:#eef1f5; margin:0 0 8px;
+  }
+  .pv-h1 .grad{
+    background:linear-gradient(90deg,#34d4c8,#3ddc84);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .pv-sub{ font-size:11.5px; color:#8a93a3; max-width:34ch; line-height:1.5; margin-bottom:14px; }
+  .pv-btn{
+    display:inline-block; font-size:11px; font-weight:700; color:#04241d;
+    background:linear-gradient(90deg,#34d4c8,#3ddc84);
+    padding:7px 14px; border-radius:999px;
+  }
+  .pv-cards{ position:absolute; right:14px; top:18px; width:120px; height:110px; }
+  .pv-card{ position:absolute; width:86px; height:58px; border-radius:8px; }
+  .pv-card.c1{ background:linear-gradient(160deg,#7c3aed,#3730a3); top:0; left:22px; transform:rotate(6deg); }
+  .pv-card.c2{ background:linear-gradient(160deg,#f59e0b,#c2410c); top:26px; left:0; transform:rotate(-4deg); }
+  .pv-card.c3{ background:#111826; border:1px solid #232c3d; top:46px; left:14px; }
+  .pv-features{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .pv-feature{ background:#0e131c; border:1px solid #1b2230; border-radius:7px; padding:10px; }
+  .pv-feature .ic{ width:18px; height:18px; border-radius:5px; background:rgba(52,212,200,.16); margin-bottom:8px; }
+  .pv-feature .t{ font-size:11.5px; font-weight:700; color:#e7ecf3; margin-bottom:4px; }
+  .pv-feature .d{ font-size:10px; color:#7c8496; line-height:1.4; }
+
+  .project-stack{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+  .tag{
+    font-size:12.5px; font-weight:500;
+    background:var(--surface-2); border:1px solid var(--border);
+    color:var(--ink-soft); padding:5px 11px; border-radius:4px;
+  }
+  .exp-list.project-list{ margin-top:18px; }
+
+  /* ---------- education / certs ---------- */
+  .row-list{ display:grid; gap:18px; }
+  .row-item{
+    display:grid; grid-template-columns:1fr auto; gap:6px 16px;
+    padding-bottom:18px; border-bottom:1px solid var(--border);
+  }
+  .row-list .row-item:last-child{ border-bottom:none; padding-bottom:0; }
+  .row-title{ font-weight:600; font-size:15.5px; }
+  .row-sub{ color:var(--ink-soft); font-size:14px; grid-column:1; }
+  .row-date{ font-size:13px; color:var(--muted); text-align:right; white-space:nowrap; font-weight:500; }
+  .row-note{ grid-column:1/-1; color:var(--ink-soft); font-size:14px; margin-top:2px; }
+
+  /* ---------- contact / footer ---------- */
+  footer{ padding:48px 0 64px; }
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:560px){ .contact-grid{ grid-template-columns:1fr; } }
+  .contact-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:6px;
+    padding:15px 18px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .contact-card .k{ font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; font-weight:600; color:var(--muted); display:block; margin-bottom:4px; }
+  .contact-card .v{ font-size:14.5px; font-weight:500; word-break:break-word; }
+  .copy-btn{
+    font-size:12px; font-weight:600;
+    background:transparent; border:1px solid var(--border); color:var(--ink-soft);
+    border-radius:4px; padding:6px 11px; cursor:pointer; flex-shrink:0;
+  }
+  .copy-btn:hover{ border-color:var(--accent); color:var(--accent); }
+  .copy-btn.copied{ color:var(--accent); border-color:var(--accent); }
+  .lang-line{ margin-top:24px; color:var(--muted); font-size:13.5px; }
+  .foot-note{ margin-top:36px; color:var(--muted); font-size:13px; text-align:center; }
+</style>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-name" href="#top">Sudeshna Das</a>
+    <ul class="nav-links">
+      <li><a href="#work">Experience</a></li>
+      <li><a href="#project">Project</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="status-line">Full Stack Web Developer Intern &mdash; Tap Academy</div>
+        <h1 class="name">Sudeshna Das</h1>
+        <p class="role-line">Full-stack developer working across the MERN stack and Java / Spring Boot, with recent focus on an AI-powered developer tool built on Retrieval-Augmented Generation.</p>
+        <div class="meta-row">
+          <span>Bankura, West Bengal, India</span>
+          <span>MCA, Netaji Subhas University</span>
+          <span>Bengali, Hindi, English</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/Sudeshna556" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn-outline" href="https://www.linkedin.com/in/sudeshna-das-dev/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn btn-outline" href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="avatar" aria-label="Sudeshna Das">SD</div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="section-head">
+      <span class="eyebrow">About</span>
+      <h2>Summary</h2>
+    </div>
+    <p class="about-text">
+      I'm a software developer passionate about crafting clean, efficient web experiences, currently completing my MCA
+      and interning at <strong>Tap Academy</strong>, where I'm building <strong>DevPilot</strong>, an AI-powered developer
+      tool that indexes GitHub repositories with a Retrieval-Augmented Generation pipeline so users can chat directly with
+      their own codebase. I'm also exploring Spring Boot alongside React to grow into full-stack development. Previously,
+      I designed and built <strong>TechMates</strong> end to end: a MERN platform where developers connect and collaborate
+      on projects, with built-in version history, contribution review, and automated secret scanning before code is shared.
+    </p>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <span class="eyebrow">Skills</span>
+      <h2>Technical skills</h2>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <span class="label">Languages</span>
+        <span class="values">JavaScript (ES6+), Java (Advanced)</span>
+      </div>
+      <div class="skill-group">
+        <span class="label">Frameworks</span>
+        <span class="values">Node.js, Express, Spring Boot, Hibernate</span>
+      </div>
+      <div class="skill-group">
+        <span class="label">Library</span>
+        <span class="values">React, Bootstrap</span>
+      </div>
+      <div class="skill-group">
+        <span class="label">Markup &amp; Styling</span>
+        <span class="values">HTML5, CSS3</span>
+      </div>
+      <div class="skill-group">
+        <span class="label">Databases</span>
+        <span class="values">MongoDB, MySQL, PostgreSQL, PGVector</span>
+      </div>
+      <div class="skill-group">
+        <span class="label">Tools</span>
+        <span class="values">Git, GitHub, Postman, VS Code</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="section-head">
+      <span class="eyebrow">Experience</span>
+      <h2>Professional experience</h2>
+    </div>
+    <div class="exp-card">
+      <div class="exp-top">
+        <span class="exp-role">Full Stack Web Developer &mdash; Internship</span>
+        <span class="exp-date">January 2026 &ndash; Present</span>
+      </div>
+      <div class="exp-org">Tap Academy, Bangalore, Karnataka</div>
+      <ul class="exp-list">
+        <li>Building DevPilot, a full-stack AI-powered developer tool (Spring Boot, Next.js) that indexes and chats with GitHub repositories using GenAI and RAG</li>
+        <li>Architecting the backend with Spring Boot, PostgreSQL, and JPA, with GitHub OAuth for secure sign-in and session management</li>
+        <li>Building a RAG indexing pipeline integrating OpenAI and PGVector to embed and search codebases</li>
+        <li>Developing a chat interface with streaming markdown responses, session handling, and source citations for AI-generated answers</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="project">
+    <div class="section-head">
+      <span class="eyebrow">Featured project</span>
+      <h2>TechMates</h2>
+    </div>
+    <div class="project-card">
+      <div class="project-top">
+        <div>
+          <div class="project-title">TechMates</div>
+          <div class="project-tagline">A developer-networking platform for connecting, chatting, and collaborating on shared projects with version control.</div>
+        </div>
+        <div class="project-links">
+          <a class="icon-link live" href="https://techmates-web.vercel.app" target="_blank" rel="noopener">Live site</a>
+          <a class="icon-link" href="https://github.com/Sudeshna556/techmates-web" target="_blank" rel="noopener">Frontend repo</a>
+          <a class="icon-link" href="https://github.com/Sudeshna556/techmates-api" target="_blank" rel="noopener">API repo</a>
+        </div>
+      </div>
+
+      <div class="preview-caption">Product preview &mdash; techmates-web.vercel.app</div>
+      <div class="preview-gallery">
+        <div class="preview-frame">
+          <div class="preview-chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="preview-url">techmates-web.vercel.app</span></div>
+          <div class="preview-body">
+            <div class="pv-logo">&lt;/&gt; TechMates</div>
+            <div class="pv-h1">Meet developers.<br><span class="grad">Build something<br>real together.</span></div>
+            <div class="pv-sub">Swipe through developers who match your stack, connect, and keep going in Project Rooms.</div>
+            <span class="pv-btn">Get started free &rarr;</span>
+            <div class="pv-cards">
+              <div class="pv-card c1"></div>
+              <div class="pv-card c2"></div>
+              <div class="pv-card c3"></div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-frame">
+          <div class="preview-chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="preview-url">techmates-web.vercel.app</span></div>
+          <div class="preview-body">
+            <div class="pv-logo">Everything you need to team up</div>
+            <div class="pv-features">
+              <div class="pv-feature"><div class="ic"></div><div class="t">Swipe to match</div><div class="d">Find devs by the skills they use.</div></div>
+              <div class="pv-feature"><div class="ic"></div><div class="t">Chat when matched</div><div class="d">Message directly, keep it going.</div></div>
+              <div class="pv-feature"><div class="ic"></div><div class="t">Project Rooms</div><div class="d">Ship code with real version history.</div></div>
+              <div class="pv-feature"><div class="ic"></div><div class="t">Share your work</div><div class="d">Post updates for your network.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="exp-list project-list">
+        <li>Built a full-stack developer-networking platform (MERN) where users match, connect, and chat in real time, with JWT authentication and bcrypt password hashing</li>
+        <li>Designed a project-sharing system supporting ZIP code uploads, version history, and diff-based contribution review, with automated secret scanning before publishing</li>
+        <li>Built RESTful APIs for connections, messaging, notifications, and activity feeds, paired with a responsive React (Vite + Tailwind CSS) frontend</li>
+      </ul>
+      <div class="project-stack">
+        <span class="tag">React</span><span class="tag">Vite</span><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">MongoDB</span><span class="tag">Tailwind CSS</span><span class="tag">JWT</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-head">
+      <span class="eyebrow">Education</span>
+      <h2>Academic background</h2>
+    </div>
+    <div class="row-list">
+      <div class="row-item">
+        <span class="row-title">Master of Computer Application (MCA)</span>
+        <span class="row-date">Sep 2023 &ndash; Sep 2025</span>
+        <span class="row-sub">Netaji Subhas University, Jamshedpur, Jharkhand</span>
+        <span class="row-note">CGPA: 7.89 / 10.0</span>
+      </div>
+      <div class="row-item">
+        <span class="row-title">Bachelor of Computer Application (BCA)</span>
+        <span class="row-date">Aug 2019 &ndash; Aug 2022</span>
+        <span class="row-sub">Brainware University, Kolkata, West Bengal</span>
+        <span class="row-note">CGPA: 8.99 / 10.0</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="certs">
+    <div class="section-head">
+      <span class="eyebrow">Certifications</span>
+      <h2>Training &amp; certifications</h2>
+    </div>
+    <div class="row-list">
+      <div class="row-item">
+        <span class="row-title">Full Stack Web Development</span>
+        <span class="row-date">2022</span>
+        <span class="row-sub">Jadavpur University</span>
+        <span class="row-note">Comprehensive training in MERN stack, RESTful API design, and database management</span>
+      </div>
+      <div class="row-item">
+        <span class="row-title">JavaScript &amp; Node.js Development</span>
+        <span class="row-date">2025</span>
+        <span class="row-sub">NamasteDev</span>
+        <span class="row-note">Advanced JavaScript (ES6+, closures, async/await) and Node.js backend development with Express.js and authentication</span>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="section-head">
+      <span class="eyebrow">Contact</span>
+      <h2>Get in touch</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div><span class="k">Email</span><span class="v" id="email-text">sudeshnad556@gmail.com</span></div>
+        <button class="copy-btn" data-copy="sudeshnad556@gmail.com" data-target="email-text">Copy</button>
+      </div>
+      <div class="contact-card">
+        <div><span class="k">Phone</span><span class="v" id="phone-text">+91&nbsp;8016242230</span></div>
+        <button class="copy-btn" data-copy="+91-8016242230" data-target="phone-text">Copy</button>
+      </div>
+      <div class="contact-card">
+        <div><span class="k">GitHub</span><span class="v">github.com/Sudeshna556</span></div>
+        <a class="copy-btn" href="https://github.com/Sudeshna556" target="_blank" rel="noopener" style="text-decoration:none; display:inline-block;">Open</a>
+      </div>
+      <div class="contact-card">
+        <div><span class="k">LinkedIn</span><span class="v">sudeshna-das-dev</span></div>
+        <a class="copy-btn" href="https://www.linkedin.com/in/sudeshna-das-dev/" target="_blank" rel="noopener" style="text-decoration:none; display:inline-block;">Open</a>
+      </div>
+    </div>
+    <div class="lang-line">Bengali (Native) &middot; Hindi (Fluent) &middot; English (Professional Working Proficiency)</div>
+    <div class="foot-note">Bankura, West Bengal, India</div>
+  </footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy');
+      var done = function(){
+        var original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function(){ btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function(){ fallbackSelect(btn.getAttribute('data-target')); });
+      } else {
+        fallbackSelect(btn.getAttribute('data-target'));
+      }
+    });
+  });
+  function fallbackSelect(targetId){
+    var el = document.getElementById(targetId);
+    if (!el) return;
+    var range = document.createRange();
+    range.selectNodeContents(el);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+</script>
+
+</html>
